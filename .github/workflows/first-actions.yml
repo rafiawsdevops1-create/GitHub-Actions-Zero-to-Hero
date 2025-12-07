@@ -37,9 +37,4 @@ jobs:
     steps:
     - name: build code
       run: echo "test the code on runner"
-  deployjob:
-    if: ${{ github.event.inputs.jobs-name == 'deployjob'}}
-    runs-on: ${{github.event.inputs.runner}}
-	  steps:
-    - name: build code
-      run: echo "test the code on runner"  
+  
