@@ -19,11 +19,7 @@ on:
         - buildjob
         - testjob
         - deployjob
-    # job-name:
-    # i have question job_name and  job_to_run  if i replaced job_name to Job_to_run is work which one isused for production
-        #description: "Enter the multiple jobs to run"
-        # type: string
-        # when running the job, we will give job names seperated by comma
+    
 jobs:
   buildjob:
     if: ${{ github.event.inputs.jobs-name == 'buildjob'}}
@@ -37,9 +33,10 @@ jobs:
     steps:
     - name: build code
       run: echo "test the code on runner"
-      if: ${{ github.event.inputs.jobs-name == 'Deployjob'}}
+  deployjob:
+    if: ${{ github.event.inputs.jobs-name == 'deployjob'}}
     runs-on: ${{github.event.inputs.runner}}
     steps:
-    - name: deploy code
-      run: echo "deploy the code on runner
-  
+    - name: build code
+      run: echo "deploy the code on runner"  
+
