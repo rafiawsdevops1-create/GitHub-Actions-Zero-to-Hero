@@ -1,28 +1,45 @@
-name: My First GitHub Actions workflow
-
-on: [push]
-
+name: multiple runners and choose jobs
+on:
+ workflow_dispatch:
+  inputs:
+    runner:
+      description: "Select the runner"
+      required: true
+      type: choice
+      options:
+        - ubuntu-latest
+        - ubuntu-22.04
+        - self-hosted
+        - windows-latest
+    jobs-name:
+      description: "select the job to run"
+      required: true
+      type: choice
+      options:
+        - buildjob
+        - testjob
+        - deployjob
+    # job-name:
+    # i have question job_name and  job_to_run  if i replaced job_name to Job_to_run is work which one isused for production
+        #description: "Enter the multiple jobs to run"
+        # type: string
+        # when running the job, we will give job names seperated by comma
 jobs:
-  build:
-    runs-on: [ubuntu-latest]
-
-    strategy:
-      matrix:
-        python-version: [3.11, 3.12]
-
+  buildjob:
+    if: ${{ github.event.inputs.jobs-name == 'buildjob'}}
+    runs-on: ${{github.event.inputs.runner}}
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pytest
-
-    - name: Run tests
-      run: |
-        cd src
-        python -m pytest addition.py
+    - name: build code
+      run: echo "build the code"
+  testjob:
+    if: ${{ github.event.inputs.jobs-name == 'testjob'}}
+    runs-on: ${{github.event.inputs.runner}}
+    steps:
+    - name: build code
+      run: echo "test the code on runner"
+  deployjob:
+    if: ${{ github.event.inputs.jobs-name == 'deployjob'}}
+    runs-on: ${{github.event.inputs.runner}}
+	  steps:
+    - name: build code
+      run: echo "test the code on runner"  
