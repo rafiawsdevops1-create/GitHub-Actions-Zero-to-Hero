@@ -1,4 +1,4 @@
-name: multiple runners and choose jobs
+name: multiple runners and choose jobss
 on:
  workflow_dispatch:
   inputs:
